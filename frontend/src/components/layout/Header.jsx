@@ -5,8 +5,8 @@ import { jwtDecode } from 'jwt-decode';
 import { teamSvg, mapSvg, notiSvg, chatSvg, exitSvg, profileSvg, loginSvg } from './svg';
 import { useApi } from '../../hooks/useApi';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+const WS_URL = process.env.REACT_APP_WS_URL || 'ws://nekokoneko.org/ws/';
 
 export const Header = () => {
   const { apiFetch } = useApi();
@@ -152,6 +152,7 @@ export const Header = () => {
   const badge = unread === 0 ? null : unread > 9 ? '+9' : unread;
 
   const navItems = [
+<<<<<<< Updated upstream
     { to: '/', label: 'Inicio', show: true },
     { to: '/users', label: 'Usuarios', show: !!token },
     { to: '/teams', label: 'Equipos', show: true },
@@ -160,6 +161,15 @@ export const Header = () => {
     { to: 'http://localhost:3000', label: 'Backoffice', show: admin },
     { to: '/map', label: mapSvg, show: !!token },
     { to: '/chats', label: chatSvg, show: !!token },
+=======
+    { to: '/',           label: 'Inicio',    show: true },
+    { to: '/users',      label: 'Usuarios',  show: !!token },
+    { to: '/games',      label: 'Partidos',  show: !!token },
+    { to: '/teams',      label: 'Equipos',   show: true },
+    { to: '/torneos',    label: 'Torneos',   show: !!token },
+    { to: 'http://nekokoneko.org/backend',  label: 'Backoffice', show: admin },
+    { to: '/chats',      label: chatSvg,     show: !!token },
+>>>>>>> Stashed changes
     {
       to: hasTeam ? '/teams/my' : '/teams/new',
       label: teamSvg,

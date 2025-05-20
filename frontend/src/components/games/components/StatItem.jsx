@@ -4,7 +4,7 @@ import { TYPES } from "./statTypes";
 import { useApi } from '../../../hooks/useApi';
 import {acceptSvg, cancelSvg3} from '../../layout/svg';
 
-const API = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
+const API = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
 
 export default function StatItem({
   stat,

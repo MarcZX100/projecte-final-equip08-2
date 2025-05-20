@@ -73,6 +73,7 @@ export default function TournamentDetail() {
   }
 
   return (
+<<<<<<< Updated upstream
     <GameLayout>
       <div className="min-h-screen bg-gray-50 w-7xl p-10 rounded-lg mt-10">
         <div className="border-b border-gray-200 pb-6 mb-6">
@@ -89,6 +90,47 @@ export default function TournamentDetail() {
             <strong>Ubicación: </strong>
             {torneo.address || 'Ubicación desconocida'}
           </p>
+=======
+    <div className="max-w-4xl mx-auto mt-10 px-4">
+      <h2 className="text-3xl font-bold mb-4">{torneo.nombre}</h2>
+      
+      <p><strong>Fecha:</strong> {new Date(torneo.fecha).toLocaleDateString()}</p>
+      <p><strong>Estado:</strong> {torneo.estado}</p>
+
+      <div className="mt-4">
+        <strong>Ubicación:</strong>{' '}
+        <span>{torneo.address || 'Ubicación desconocida'}</span>
+      </div>
+
+      <p className="mt-6 font-semibold">
+        Equipos participantes ({equipos.length}/{torneo.max_equipos})
+      </p>
+      <ul className="list-none mt-4 space-y-3">
+        {equipos.map(e => (
+          <li key={e.equipo_id} className="flex items-center">
+            <img
+              src={e.foto ? `${process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend'}${e.foto}` 
+                          : `${process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend'}/uploads/user_placeholder.png`}
+              alt={`Logo de ${e.nombre}`}
+              className="w-10 h-10 rounded-full object-cover mr-3"
+            />
+            <Link to={`/teams/${e.equipo_id}`} className="text-lg font-medium">
+              {e.nombre}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {torneo.estado === 'abierto' && (
+        <div className="mt-6">
+          <JoinTournamentForm
+            torneoId={id}
+            currentEquipos={equipos}
+            maxEquipos={torneo.max_equipos}
+            onJoined={eq => setEquipos(prev => [...prev, eq])}
+            onLeft={eq => setEquipos(prev => prev.filter(e => e.equipo_id !== eq.equipo_id))}
+          />
+>>>>>>> Stashed changes
         </div>
 
         {torneo.estado === 'abierto' && (

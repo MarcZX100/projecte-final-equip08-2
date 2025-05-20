@@ -5,7 +5,7 @@ import { useApi } from '../../hooks/useApi';
 import { jwtDecode } from 'jwt-decode';
 import { dropdownSvg, profileSvg, chatSvg2 } from '../layout/svg';
 
-const API = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
+const API = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
 
 const TeamDetails = () => {
   const { apiFetch } = useApi();

@@ -14,7 +14,7 @@ export const Register = () => {
     fecha_nacimiento: '',
     foto: null,
   });
-  const [preview, setPreview] = useState('http://localhost:3000/uploads/user_placeholder.png');
+  const [preview, setPreview] = useState('http://nekokoneko.org/backend/uploads/user_placeholder.png');
   const [error, setError] = useState("");
   const navigate = useNavigate();
 

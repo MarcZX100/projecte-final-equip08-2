@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:9134';
 
 module.exports = (pool) => {
   const router = express.Router();

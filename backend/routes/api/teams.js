@@ -7,7 +7,7 @@ const Chat = require('../../models/Chat');
 module.exports = (pool, websocket) => {
   const router = express.Router();
   router.use(express.json());
-  const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+  const BASE_URL = process.env.BASE_URL || 'http://localhost:9134';
 
   const storage = multer.diskStorage({
     destination: (req, file, cb) =>

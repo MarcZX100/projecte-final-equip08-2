@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const https = require('https');
 const path = require("path");
 const mariadb = require("mariadb");
 const cookieParser = require("cookie-parser");
@@ -10,6 +11,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const session = require('express-session');
+const fs = require("fs");
 
 const app = express();
 app.use(express.json());
@@ -31,11 +33,19 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:8000"],
+  origin: ["http://nekokoneko.org"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 }));
+app.set('trust proxy', true);
+app.disable('x-powered-by');
+
+
+const sslOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/nekokoneko.org/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/nekokoneko.org/fullchain.pem')
+};
 
 app.use((req, res, next) => {
   let user = null;
@@ -73,24 +83,24 @@ const pool = mariadb.createPool({
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-app.use("/",       require("./routes/auth")(pool));
-app.use("/users",  require("./routes/users")(pool));
-app.use("/teams",  require("./routes/teams")(pool));
-app.use("/games",  require("./routes/games")(pool));
-app.use("/tournaments",  require("./routes/tournaments")(pool));
+app.use("/backend/",       require("./routes/auth")(pool));
+app.use("/backend/users",  require("./routes/users")(pool));
+app.use("/backend/teams",  require("./routes/teams")(pool));
+app.use("/backend/games",  require("./routes/games")(pool));
+app.use("/backend/tournaments",  require("./routes/tournaments")(pool));
 
-app.use("/api/auth",       require("./routes/api/auth")(pool));
-app.use("/api/users",      require("./routes/api/users")(pool));
-app.use("/api/files",      require("./routes/api/files")(pool));
-app.use('/api/games',      require('./routes/api/games')(pool));
-app.use("/api/tournaments",  require("./routes/api/tournaments")(pool));
-app.use('/api/statistics', require('./routes/api/statistics')(pool));
+app.use("/backend/api/auth",       require("./routes/api/auth")(pool));
+app.use("/backend/api/users",      require("./routes/api/users")(pool));
+app.use("/backend/api/files",      require("./routes/api/files")(pool));
+app.use('/backend/api/games',      require('./routes/api/games')(pool));
+app.use("/backend/api/tournaments",  require("./routes/api/tournaments")(pool));
+app.use('/backend/api/statistics', require('./routes/api/statistics')(pool));
 
 const { router: geocodeRouter } = require('./routes/api/geocode');
-app.use('/api/geocode', geocodeRouter);
+app.use('/backend/api/geocode', geocodeRouter);
 
 
-app.get("/", (req, res) => {
+app.get("/backend", (req, res) => {
   res.render("home", { user: res.locals.user });
 });
 
@@ -99,8 +109,8 @@ app.use(errorHandler);
 async function startServer() {
   let websocket;
   try {
-    websocket = new ChatServer({ host: 'localhost', port: 8080 });
-    console.log("🟢 Websocket server started on ws://localhost:8080");
+    websocket = new ChatServer({ host: '127.0.0.1', port: 9135 });
+    console.log("🟢 Websocket server started on ws://localhost:9135");
   } catch (err) {
     console.error("❌ Error starting WebSocket:", err);
   }
@@ -121,15 +131,18 @@ async function startServer() {
     conn = await pool.getConnection();
     console.log("✅ Conectado a MariaDB");
 
-    app.use("/api/teams", require("./routes/api/teams")(pool, websocket));
-    app.use("/api/chats", require("./routes/api/chats")(pool, websocket));
-    app.use("/api/profile", require("./routes/api/profile")(pool, websocket));
-    app.use('/api/notifications', require('./routes/api/notifications')(pool, websocket));
+    app.use("/backend/api/teams", require("./routes/api/teams")(pool, websocket));
+    app.use("/backend/api/chats", require("./routes/api/chats")(pool, websocket));
+    app.use("/backend/api/profile", require("./routes/api/profile")(pool, websocket));
+    app.use('/backend/api/notifications', require('./routes/api/notifications')(pool, websocket));
     
 
     const PORT = process.env.PORT;
-    app.listen(PORT, () => {
-      console.log(`🌐 Servidor escuchando en http://localhost:${PORT}`);
+    // app.listen(PORT, () => {
+    //   console.log(`🌐 Servidor escuchando en http://localhost:${PORT}`);
+    // });
+    app.listen(PORT, '127.0.0.1', () => {
+      console.log(`Backend listening on https://nekokoneko.org/backend`);
     });
 
   } catch (err) {

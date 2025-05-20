@@ -128,7 +128,7 @@ export default function ChatsList() {
                   >
                     <div className="flex items-center space-x-3">
                       <img
-                        src={`http://localhost:3000${photo}`}
+                        src={`http://nekokoneko.org/backend${photo}`}
                         alt={name}
                         className="w-8 h-8 rounded-full object-cover"
                       />

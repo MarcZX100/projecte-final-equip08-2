@@ -14,7 +14,7 @@ export default function Pizarra() {
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = "http://localhost:3000/uploads/soccerField.jpg";
+    img.src = "http://nekokoneko.org/backend/uploads/soccerField.jpg";
     img.onload = () => {
       setBackgroundImage(img);
       const canvas = canvasRef.current;

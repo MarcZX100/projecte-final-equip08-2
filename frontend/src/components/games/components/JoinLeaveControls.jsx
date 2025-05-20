@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useApi } from '../../../hooks/useApi';
-const API = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
+const API = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
 
 export default function JoinLeaveControls({
   game, user, userTeam, token,

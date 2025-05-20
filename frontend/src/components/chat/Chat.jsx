@@ -5,7 +5,7 @@ import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024;
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080';
+const WS_URL = process.env.REACT_APP_WS_URL || 'ws://nekokoneko.org/ws';
 
 export default function Chat({ chatId: propChatId }) {
   const { apiFetch } = useApi();
@@ -224,7 +224,7 @@ export default function Chat({ chatId: propChatId }) {
         ) : (
           <> 
             <img
-              src={"http://localhost:3000" + (otherUser.foto || "/uploads/user_placeholder.png")}
+              src={"http://nekokoneko.org/backend" + (otherUser.foto || "/uploads/user_placeholder.png")}
               alt={otherUser.nombre || `Usuario #${currentUserId}`}
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -243,7 +243,7 @@ export default function Chat({ chatId: propChatId }) {
             <div key={i} className={`flex ${isMine ? 'justify-end' : 'justify-start'} mb-2`}>
               <div className="flex items-start space-x-2">
                 <img
-                  src={"http://localhost:3000" + (sender.foto || "/uploads/user_placeholder.png")}
+                  src={"http://nekokoneko.org/backend" + (sender.foto || "/uploads/user_placeholder.png")}
                   alt={sender.nombre}
                   className="w-6 h-6 rounded-full object-cover mt-1"
                 />

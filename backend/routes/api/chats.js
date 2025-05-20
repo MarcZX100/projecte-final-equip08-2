@@ -52,7 +52,7 @@ module.exports = (pool, websocket) => {
           if (teamRows.length) {
             const raw = teamRows[0].foto;
             teamPhoto = raw && raw.startsWith('/')
-              ? `${process.env.BASE_URL || 'http://localhost:3000'}${raw}`
+              ? `${process.env.BASE_URL || 'http://localhost:9134'}${raw}`
               : raw;
           }
         }
