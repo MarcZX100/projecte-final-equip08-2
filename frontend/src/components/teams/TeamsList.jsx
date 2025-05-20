@@ -96,7 +96,7 @@ const TeamsList = () => {
   return (
     <div className="max-w-8xl mx-auto mt-10 p-6">
       <div className="relative">
-        <div className="absolute -top-12 left-15 bg-gray-800 text-white text-2xl font-semibold px-10 py-2 rounded-t-md">
+        <div className="absolute -top-12 left-15 bg-gray-800 text-white text-2xl font-medium px-10 py-2 rounded-t-md">
           Explorar equipos
         </div>
 

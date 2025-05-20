@@ -2,27 +2,24 @@ import React, { useEffect, useState, useMemo, useRef, useContext, useLayoutEffec
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
-import {
-  SingleEliminationBracket,
-  Match
-} from '@g-loot/react-tournament-brackets';
+import { SingleEliminationBracket, Match } from '@g-loot/react-tournament-brackets';
 
 export default function BracketView() {
   const { id } = useParams();
   const { apiFetch } = useApi();
   const { user } = useContext(UserContext);
 
-  const [torneo, setTorneo]   = useState(null);
+  const [torneo, setTorneo] = useState(null);
   const [equipos, setEquipos] = useState([]);
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving]   = useState(false);
-  const [zoom, setZoom]       = useState(1);
+  const [saving, setSaving] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
-  const containerRef   = useRef();
-  const isDragging     = useRef(false);
-  const dragStart      = useRef({ x:0, y:0, scrollLeft:0, scrollTop:0 });
-  const scrollPosRef   = useRef({ left: 0, top: 0 });
+  const containerRef = useRef();
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x:0, y:0, scrollLeft:0, scrollTop:0 });
+  const scrollPosRef = useRef({ left: 0, top: 0 });
 
   useEffect(() => {
     async function load() {
@@ -96,8 +93,8 @@ export default function BracketView() {
     dragStart.current = {
       x: e.clientX,
       y: e.clientY,
-      scrollLeft:  containerRef.current.scrollLeft,
-      scrollTop:   containerRef.current.scrollTop
+      scrollLeft: containerRef.current.scrollLeft,
+      scrollTop: containerRef.current.scrollTop
     };
     containerRef.current.style.cursor = 'grabbing';
   };
@@ -127,7 +124,7 @@ export default function BracketView() {
     const c = containerRef.current;
     if (c) {
       c.scrollLeft = scrollPosRef.current.left;
-      c.scrollTop  = scrollPosRef.current.top;
+      c.scrollTop = scrollPosRef.current.top;
     }
   }, [zoom]);
 
@@ -201,11 +198,11 @@ export default function BracketView() {
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">Cuadro del torneo</h2>
-        <button onClick={generateRandom} className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+        <h2 className="text-3xl text-gray-800 font-bold">Cuadro del torneo</h2>
+        <button onClick={generateRandom} className="bg-gray-800 text-white px-4 py-3 font-semibold rounded-full cursor-pointer tansition hover:bg-gray-900">
           Generar eventos random
         </button>
-        <Link to={`/torneos/${id}`} className="text-blue-600 hover:underline">
+        <Link to={`/torneos/${id}`} className="text-gray-800 hover:text-yellow-500 transition cursor-pointer font-semibold">
           ← Volver
         </Link>
       </div>

@@ -10,7 +10,7 @@ const Inicio = () => {
       <main>
         <section className="bg-white py-16">
           <div className="max-w-7xl mx-auto text-center px-6">
-            <h2 className="text-7xl font-bold text-gray-800 mb-7">TACTIX</h2>
+            <h2 className="text-7xl font-bold text-gray-800 mb-7 font-calsans">TACTIX</h2>
 
             <h2 className="text-4xl font-semibold text-gray-800">La herramienta definitiva para equipos deportivos amateurs</h2>
             <p className="mt-4 text-lg text-gray-600">

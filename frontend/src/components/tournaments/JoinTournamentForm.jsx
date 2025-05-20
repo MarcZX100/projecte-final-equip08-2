@@ -116,7 +116,7 @@ function JoinTournamentForm({
   };
 
   return (
-    <div className="max-w-sm p-4 border rounded shadow">
+    <div className="">
       <p>Equipo: <strong>{equipo.nombre}</strong></p>
       <button
         type="button"                      
@@ -124,8 +124,8 @@ function JoinTournamentForm({
         disabled={loading}
         className={`px-4 py-2 rounded mt-2 
           ${isRegistered
-            ? 'bg-red-600 hover:bg-red-700 text-white'
-            : 'bg-green-600 hover:bg-green-700 text-white'}
+            ? 'bg-red-500 hover:bg-red-600 rounded-full cursor-pointer transition font-semibold text-white'
+            : 'bg-gray-800 hover:bg-gray-900 cursor-pointer rounded-full transition font-semibold text-white'}
           disabled:opacity-50`}
       >
         {loading

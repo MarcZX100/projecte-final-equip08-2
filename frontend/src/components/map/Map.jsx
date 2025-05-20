@@ -1,28 +1,45 @@
-// src/components/map/Map.jsx
-
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap
-} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { loadingSvg } from '../layout/svg';
 import { useApi } from '../../hooks/useApi';
+import blueIconUrl from 'leaflet-color-markers/img/marker-icon-2x-orange.png';
+import redIconUrl from 'leaflet-color-markers/img/marker-icon-2x-red.png';
+import yellowIconUrl from 'leaflet-color-markers/img/marker-icon-2x-black.png';
+import shadowUrl from 'leaflet-color-markers/img/marker-shadow.png';
 
-// Leaflet icon setup
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl:        require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl:      require('leaflet/dist/images/marker-shadow.png'),
+const gameIcon = new L.Icon({
+  iconUrl: blueIconUrl,
+  iconRetinaUrl: blueIconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
-// Recenter helper
+const tournamentIcon = new L.Icon({
+  iconUrl: redIconUrl,
+  iconRetinaUrl: redIconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const userIcon = new L.Icon({
+  iconUrl: yellowIconUrl,
+  iconRetinaUrl: yellowIconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
 function Recenter({ lat, lng, zoom }) {
   const map = useMap();
   useEffect(() => {
@@ -33,7 +50,6 @@ function Recenter({ lat, lng, zoom }) {
   return null;
 }
 
-// Haversine distance
 function calcDistanceKm(lat1, lon1, lat2, lon2) {
   const toRad = v => (v * Math.PI) / 180;
   const R = 6371;
@@ -51,7 +67,6 @@ const Map = () => {
   const { apiFetch } = useApi();
   const navigate = useNavigate();
 
-  // Estados principales
   const [userPos, setUserPos] = useState({ lat: 40.4168, lng: -3.7038 });
   const [games, setGames] = useState([]);
   const [tournaments, setTournaments] = useState([]);
@@ -60,18 +75,14 @@ const Map = () => {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1024
   );
+  const [filterType, setFilterType] = useState('all');
 
-  // Nuevo estado: filtro de tipo de evento
-  const [filterType, setFilterType] = useState('all'); // 'all' | 'game' | 'tournament'
-
-  // Resize listener
   useEffect(() => {
     const onResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Geolocalizar usuario
   useEffect(() => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
@@ -81,39 +92,37 @@ const Map = () => {
     );
   }, []);
 
-  // Fetch de partidos y torneos, + geocoding
   useEffect(() => {
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [gamesRes, toursRes] = await Promise.all([
-        apiFetch('/api/games'),
-        apiFetch('/api/tournaments')
-      ]);
-      const [gamesData, toursData] = await Promise.all([
-        gamesRes.json(),
-        toursRes.json()
-      ]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [gamesRes, toursRes] = await Promise.all([
+          apiFetch('/api/games'),
+          apiFetch('/api/tournaments')
+        ]);
+        const [gamesData, toursData] = await Promise.all([
+          gamesRes.json(),
+          toursRes.json()
+        ]);
 
-      const rawGames = gamesData
-        .filter(g => g.ubicacion_x && g.ubicacion_y)
-        .map(g => ({ ...g, type: 'game' }));
-      const rawTours = toursData
-        .filter(t => t.ubicacion_x && t.ubicacion_y)
-        .map(t => ({ ...t, type: 'tournament' }));
+        const rawGames = gamesData
+          .filter(g => g.ubicacion_x && g.ubicacion_y)
+          .map(g => ({ ...g, type: 'game' }));
+        const rawTours = toursData
+          .filter(t => t.ubicacion_x && t.ubicacion_y)
+          .map(t => ({ ...t, type: 'tournament' }));
 
-      setGames(rawGames);
-      setTournaments(rawTours);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
-}, [apiFetch]);
+        setGames(rawGames);
+        setTournaments(rawTours);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [apiFetch]);
 
-  // Combinar, calcular distancias y ordenar
   const eventsSorted = useMemo(() => {
     const all = [...games, ...tournaments].map(e => ({
       ...e,
@@ -125,18 +134,16 @@ const Map = () => {
     return all.sort((a, b) => a.distance - b.distance);
   }, [games, tournaments, userPos]);
 
-  // Aplicar filtro y límite de 10
   const eventsToShow = useMemo(() => {
     return eventsSorted
-      .filter(ev => filterType === 'all' || ev.type === filterType)
-      .slice(0, 10);
+      .filter(ev => filterType === 'all' || ev.type === filterType);
   }, [eventsSorted, filterType]);
 
   const isMobile = windowWidth < 768;
 
   const tournamentIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
-    iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
@@ -146,12 +153,12 @@ const Map = () => {
 
 
   return (
-    <div style={{
+    <div
+    style={{
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
       height: '100vh'
     }}>
-      {/* LISTA */}
       {isMobile ? (
         <header style={{
           width: '100%',
@@ -164,7 +171,7 @@ const Map = () => {
             <select
               value={filterType}
               onChange={e => setFilterType(e.target.value)}
-              className="text-sm border border-gray-300 rounded-lg p-1"
+              className="text-sm border border-gray-300 rounded-lg p-1 bg-white"
             >
               <option value="all">Todos</option>
               <option value="game">Partidos</option>
@@ -194,7 +201,7 @@ const Map = () => {
                   key={`${ev.type}-${ev.id}`}
                   value={`${ev.type}-${ev.id}`}
                 >
-                  [{ev.type === 'game' ? 'Partido' : 'Torneo'}] -{' '}
+                  [{ev.type === 'game' ? 'Partido' : 'Torneo'}] {' '}
                   {ev.type === 'game'
                     ? `${ev.equipo1_pseudo || ev.equipo1} vs ${ev.equipo2 || 'Abierto'}`
                     : ev.nombre
@@ -205,8 +212,7 @@ const Map = () => {
           )}
         </header>
       ) : (
-        <aside className="w-1/5 overflow-y-auto border-r border-gray-300 p-5"
-        >
+        <aside className="w-1/5 overflow-y-auto border-r border-gray-300 p-5">
           <div className="flex justify-between items-center mb-3">
             <p className="font-semibold text-gray-800">Eventos cercanos</p>
             <select
@@ -220,7 +226,7 @@ const Map = () => {
             </select>
           </div>
           {loading ? (
-            <div style={{ display:'flex', justifyContent:'center', marginTop:'2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
               {loadingSvg()}
             </div>
           ) : (
@@ -239,14 +245,14 @@ const Map = () => {
                     borderRadius: 4
                   }}
                 >
-                  <strong className="text-xs text-gray-500">({ev.type === 'game' ? 'Partido' : 'Torneo'})</strong><br/>
+                  <strong className="text-xs text-gray-500">({ev.type === 'game' ? 'Partido' : 'Torneo'})</strong><br />
                   {ev.type === 'game'
                     ? <span className="text-gray-800 font-semibold">{ev.equipo1_pseudo || ev.equipo1} vs {ev.equipo2 || 'Abierto'}</span>
                     : <span className="text-gray-800 font-semibold">{ev.nombre}</span>
                   }
-                  <br/>
+                  <br />
                   <small>
-                    <span className="text-gray-700">{ev.address}</span><br/>
+                    <span className="text-gray-700">{ev.address}</span><br />
                     <span className="text-gray-500">{ev.distance.toFixed(2)} km</span>
                   </small>
                 </li>
@@ -256,7 +262,6 @@ const Map = () => {
         </aside>
       )}
 
-      {/* MAPA */}
       <div style={{
         flex: 1,
         height: isMobile ? 'calc(100vh - 88px)' : '100vh'
@@ -276,85 +281,46 @@ const Map = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Marcador usuario */}
-          <Marker position={[userPos.lat, userPos.lng]}>
-            <Popup>Tú estás aquí.</Popup>
+          <Marker position={[userPos.lat, userPos.lng]} icon={userIcon}>
+            <Popup>Tu ubicación</Popup>
           </Marker>
 
-          {/* Marcadores de hasta 10 eventos filtrados */}
           {!loading && eventsToShow.map(ev => (
-            ev.type == 'game' ? (
-              <Marker
-                key={`${ev.type}-${ev.id}`}
-                position={[ev.ubicacion_x, ev.ubicacion_y]}
-              >
-                <Popup>
-                  <div className="space-y-4 min-w-[200px]">
-                    <strong>
-                      {ev.type === 'game'
-                        ? `Partido #${ev.id}`
-                        : `Torneo #${ev.id}`
-                      }
-                    </strong><br/>
+            <Marker
+              key={`${ev.type}-${ev.id}`}
+              position={[ev.ubicacion_x, ev.ubicacion_y]}
+              icon={ev.type === 'game' ? gameIcon : tournamentIcon}
+            >
+              <Popup>
+                <div className="space-y-4 min-w-[200px]">
+                  <strong className="text-xs">
                     {ev.type === 'game'
-                      ? `${ev.equipo1_pseudo || ev.equipo1} vs ${ev.equipo2 || 'Abierto'}`
-                      : ev.nombre
-                    }<br/>
-                    Fecha: {new Date(
-                      ev.type === 'game' ? ev.fecha_inicio : ev.fecha
-                    ).toLocaleString()}<br/>
-                    <button
-                      className="mt-3 cursor-pointer font-semibold hover:text-yellow-500 transition"
-                      onClick={() =>
-                        navigate(
-                          ev.type === 'game'
-                            ? `/games/${ev.id}`
-                            : `/torneos/${ev.id}`
-                        )
-                      }
-                    >
-                      Ver detalles
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            ) : (
-              <Marker
-                key={`${ev.type}-${ev.id}`}
-                position={[ev.ubicacion_x, ev.ubicacion_y]}
-                icon={tournamentIcon}
-              >
-                <Popup>
-                  <div className="space-y-4 min-w-[200px]">
-                    <strong>
-                      {ev.type === 'game'
-                        ? `Partido #${ev.id}`
-                        : `Torneo #${ev.id}`
-                      }
-                    </strong><br/>
-                    {ev.type === 'game'
-                      ? `${ev.equipo1_pseudo || ev.equipo1} vs ${ev.equipo2 || 'Abierto'}`
-                      : ev.nombre
-                    }<br/>
-                    Fecha: {new Date(
-                      ev.type === 'game' ? ev.fecha_inicio : ev.fecha
-                    ).toLocaleString()}<br/>
-                    <button
-                      className="mt-3 cursor-pointer font-semibold hover:text-yellow-500 transition"
-                      onClick={() =>
-                        navigate(
-                          ev.type === 'game'
-                            ? `/games/${ev.id}`
-                            : `/torneos/${ev.id}`
-                        )
-                      }
-                    >
-                      Ver detalles
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            )
+                      ? `(Partido)`
+                      : `(Torneo)`
+                    }
+                  </strong><br />
+                  {ev.type === 'game'
+                    ? `${ev.equipo1_pseudo || ev.equipo1} vs ${ev.equipo2 || 'Abierto'}`
+                    : ev.nombre
+                  }<br />
+                  <span className="text-xs">Fecha: {new Date(
+                    ev.type === 'game' ? ev.fecha_inicio : ev.fecha
+                  ).toLocaleString()}</span><br />
+                  <button
+                    className="mt-3 cursor-pointer font-semibold hover:text-yellow-500 transition"
+                    onClick={() =>
+                      navigate(
+                        ev.type === 'game'
+                          ? `/games/${ev.id}`
+                          : `/torneos/${ev.id}`
+                      )
+                    }
+                  >
+                    Ver detalles
+                  </button>
+                </div>
+              </Popup>
+            </Marker>
           ))}
         </MapContainer>
       </div>

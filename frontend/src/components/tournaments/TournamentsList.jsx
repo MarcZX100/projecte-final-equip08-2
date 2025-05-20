@@ -110,7 +110,7 @@ export default function TournamentsList() {
     <div className="max-w-8xl mx-auto mt-10 p-6">
       <div className="relative">
         {/* Pestaña “Torneos” */}
-        <div className="absolute -top-12 left-15 bg-gray-800 text-white text-2xl font-semibold px-10 py-2 rounded-t-md">
+        <div className="absolute -top-12 left-15 bg-gray-800 text-white text-2xl font-medium px-10 py-2 rounded-t-md">
           Explorar torneos
         </div>
 

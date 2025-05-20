@@ -17,6 +17,7 @@
     "html2canvas": "^1.4.1",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
+    "leaflet-color-markers": "^0.1.0",
     "nodemon": "^3.1.10",
     "react": "^19.1.0",
     "react-calendar": "^5.1.0",
