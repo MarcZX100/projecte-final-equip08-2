@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "static", "views"));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/backend/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const pool = mariadb.createPool({
   host:     process.env.DB_HOST,

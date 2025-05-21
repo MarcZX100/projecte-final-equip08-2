@@ -19,11 +19,11 @@
     <div class="min-h-screen">
       <div class="container mx-auto p-8">
         <h1 class="text-2xl text-gray-800 font-bold mb-4">Lista de Usuarios</h1>
-        <a href="/users/new" class="bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-300 transition py-2 px-4 rounded-full mb-4 inline-block">
+        <a href="/backend/users/new" class="bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-300 transition py-2 px-4 rounded-full mb-4 inline-block">
           + Nuevo Usuario
         </a>
 
-        <form method="GET" action="/users" class="mb-6 flex items-center space-x-4">
+        <form method="GET" action="/backend/users" class="mb-6 flex items-center space-x-4">
           <input
             type="text"
             name="q"
@@ -68,13 +68,13 @@
                 <td class="py-2 border border-gray-300">
                   <% if (usuario.foto) { %>
                     <img 
-                      src="<%= usuario.foto %>" 
+                      src="<%= '/backend' + usuario.foto %>" 
                       alt="Foto de <%= usuario.nombre %>" 
                       class="w-10 h-10 mx-auto"
                     >
                   <% } else { %>
                     <img 
-                      src="/uploads/user_placeholder.png" 
+                      src="/backend/uploads/user_placeholder.png" 
                       alt="Foto por defecto" 
                       class="w-10 h-10 mx-auto"
                     >
@@ -83,7 +83,7 @@
                 <td class="px-4 py-2 border border-gray-300">
                   <% if (usuario.equipo_nombre) { %>
                     <a 
-                      href="/teams/<%= usuario.equip_id %>" 
+                      href="/backend/teams/<%= usuario.equip_id %>" 
                       class="text-gray-700 font-semibold hover:text-gray-900"
                     ><%= usuario.equipo_nombre %></a>
                   <% } else { %>
@@ -93,9 +93,9 @@
                 <td class="px-4 py-2 border border-gray-300"><%= usuario.rol %></td>
                 <td class="px-4 py-2 border border-gray-300"><%= usuario.email %></td>
                 <td class="px-4 py-2 space-x-2 border border-gray-300 text-center">
-                  <a href="/users/<%= usuario.id %>" class="text-green-500">Ver</a>
-                  <a href="/users/<%= usuario.id %>/edit" class="text-blue-500">Editar</a>
-                  <form action="/users/<%= usuario.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de que deseas borrar este usuario?');">
+                  <a href="/backend/users/<%= usuario.id %>" class="text-green-500">Ver</a>
+                  <a href="/backend/users/<%= usuario.id %>/edit" class="text-blue-500">Editar</a>
+                  <form action="/backend/users/<%= usuario.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de que deseas borrar este usuario?');">
                     <button type="submit" class="text-red-500">Borrar</button>
                   </form>
                 </td>
@@ -107,7 +107,7 @@
           <% /* Anterior */ %>
           <% if (currentPage > 1) { %>
             <a
-              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage-1}` %>"
+              href="/backend/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage-1}` %>"
               class="px-3 py-1 border rounded hover:bg-gray-200"
             >« Anterior</a>
           <% } else { %>
@@ -126,7 +126,7 @@
             <span class="px-3 py-1 border bg-gray-800 text-white">1</span>
           <% } else { %>
             <a
-              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=1` %>"
+              href="/backend/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=1` %>"
               class="px-3 py-1 border rounded hover:bg-gray-200"
             >1</a>
           <% } %>
@@ -141,7 +141,7 @@
               <span class="px-3 py-1 border bg-gray-800 text-white"><%= p %></span>
             <% } else { %>
               <a
-                href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${p}` %>"
+                href="/backend/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${p}` %>"
                 class="px-3 py-1 border rounded hover:bg-gray-200"
               ><%= p %></a>
             <% } %>
@@ -158,7 +158,7 @@
               <span class="px-3 py-1 border bg-gray-800 text-white"><%= total %></span>
             <% } else { %>
               <a
-                href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${total}` %>"
+                href="/backend/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${total}` %>"
                 class="px-3 py-1 border rounded hover:bg-gray-200"
               ><%= total %></a>
             <% } %>
@@ -167,7 +167,7 @@
           <% /* Siguiente */ %>
           <% if (currentPage < totalPages) { %>
             <a
-              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage+1}` %>"
+              href="/backend/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage+1}` %>"
               class="px-3 py-1 border rounded hover:bg-gray-200"
             >Siguiente »</a>
           <% } else { %>

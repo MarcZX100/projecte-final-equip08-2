@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:9134';
+const BASE_URL = process.env.BASE_URL || 'https://nekokoneko.org/backend';
 
 module.exports = (pool) => {
   const router = express.Router();
@@ -72,7 +72,7 @@ module.exports = (pool) => {
       res.json({
         id:          row.id,
         name:        row.teamName,
-        photoPath:   row.teamPhoto ? `${BASE_URL}${row.teamPhoto}` : null,
+        photoPath:   row.teamPhoto ? `${row.teamPhoto}` : null,
         limit:       Number(row.teamLimit),
         premium:     Boolean(row.teamPremium),
         memberCount: Number(row.memberCount),

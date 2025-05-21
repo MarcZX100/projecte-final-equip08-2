@@ -1,3 +1,4 @@
+// src/pages/tournaments/TournamentDetail.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
@@ -73,26 +74,8 @@ export default function TournamentDetail() {
   }
 
   return (
-<<<<<<< Updated upstream
-    <GameLayout>
-      <div className="min-h-screen bg-gray-50 w-7xl p-10 rounded-lg mt-10">
-        <div className="border-b border-gray-200 pb-6 mb-6">
-          <h2 className="text-5xl text-gray-800 font-bold mb-4">{torneo.nombre}</h2>
-          <p className="text-gray-700">
-            <strong>Fecha: </strong>
-            {new Date(torneo.fecha).toLocaleDateString()}
-          </p>
-          <p className="text-gray-700 mt-2">
-            <strong>Estado: </strong>
-            {torneo.estado}
-          </p>
-          <p className="text-gray-700 mt-2">
-            <strong>Ubicación: </strong>
-            {torneo.address || 'Ubicación desconocida'}
-          </p>
-=======
     <div className="max-w-4xl mx-auto mt-10 px-4">
-      <h2 className="text-3xl font-bold mb-4">{torneo.nombre}</h2>
+      <h2 className="text-5xl font-bold mb-4">{torneo.nombre}</h2>
       
       <p><strong>Fecha:</strong> {new Date(torneo.fecha).toLocaleDateString()}</p>
       <p><strong>Estado:</strong> {torneo.estado}</p>
@@ -102,91 +85,68 @@ export default function TournamentDetail() {
         <span>{torneo.address || 'Ubicación desconocida'}</span>
       </div>
 
-      <p className="mt-6 font-semibold">
-        Equipos participantes ({equipos.length}/{torneo.max_equipos})
-      </p>
-      <ul className="list-none mt-4 space-y-3">
-        {equipos.map(e => (
-          <li key={e.equipo_id} className="flex items-center">
-            <img
-              src={e.foto ? `${process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend'}${e.foto}` 
-                          : `${process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend'}/uploads/user_placeholder.png`}
-              alt={`Logo de ${e.nombre}`}
-              className="w-10 h-10 rounded-full object-cover mr-3"
-            />
-            <Link to={`/teams/${e.equipo_id}`} className="text-lg font-medium">
-              {e.nombre}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
       {torneo.estado === 'abierto' && (
-        <div className="mt-6">
+        <div className="mb-6">
           <JoinTournamentForm
             torneoId={id}
             currentEquipos={equipos}
             maxEquipos={torneo.max_equipos}
-            onJoined={eq => setEquipos(prev => [...prev, eq])}
-            onLeft={eq => setEquipos(prev => prev.filter(e => e.equipo_id !== eq.equipo_id))}
+            onJoined={(eq) =>
+              setEquipos(prev => [
+                ...prev,
+                {
+                  equipo_id: eq.id,
+                  nombre: eq.nombre,
+                  foto: eq.foto || null
+                }
+              ])
+            }
+            onLeft={(eq) =>
+              setEquipos(prev =>
+                prev.filter(e => e.equipo_id !== eq.id)
+              )
+            }
+            user={user}
+            userTeam={userTeam}
           />
->>>>>>> Stashed changes
         </div>
+      )}
 
-        {torneo.estado === 'abierto' && (
-          <div className="mb-6">
-            <JoinTournamentForm
-              torneoId={id}
-              currentEquipos={equipos}
-              maxEquipos={torneo.max_equipos}
-              onJoined={(eq) => setEquipos((prev) => [...prev, eq])}
-              onLeft={(eq) =>
-                setEquipos((prev) => prev.filter((e) => e.equipo_id !== eq.equipo_id))
-              }
-              user={user}
-              userTeam={userTeam}
-            />
-          </div>
-        )}
-
-        <div className="mb-6">
-          <h3 className="text-xl text-gray-800 font-semibold">
-            Equipos participantes ({equipos.length}/{torneo.max_equipos})
-          </h3>
-          <ul className="list-none mt-4 space-y-3">
-            {equipos.map((e) => (
-              <li key={e.equipo_id} className="flex items-center">
-                <img
-                  src={
-                    e.foto
-                      ? `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000'}${e.foto}`
-                      : `${
-                          process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000'
-                        }/uploads/user_placeholder.png`
-                  }
-                  alt={`Logo de ${e.nombre}`}
-                  className="w-20 h-20 rounded-full object-cover mr-3"
-                />
-                <Link to={`/teams/${e.equipo_id}`} className="text-xl font-medium text-gray-800 hover:text-yellow-500 transition font-semibold">
-                  {e.nombre}
-                </Link>
-              </li>
-            ))}
-            {equipos.length === 0 && (
-              <li className="text-gray-500 italic">Aún no hay equipos inscritos.</li>
-            )}
-          </ul>
-        </div>
-
-        <div className="mb-6">
-          <Link
-            to={`/torneos/${id}/bracket`}
-            className="inline-block bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-900 transition font-semibold"
-          >
-            Ver bracket
-          </Link>
-        </div>
+      <div className="mb-6">
+        <h3 className="text-xl text-gray-800 font-semibold">
+          Equipos participantes ({equipos.length}/{torneo.max_equipos})
+        </h3>
+        <ul className="list-none mt-4 space-y-3">
+          {equipos.map((e) => (
+            <li key={e.equipo_id} className="flex items-center">
+              <img
+                src={
+                  e.foto
+                    ? `${process.env.REACT_APP_API_BASE_URL || 'https://nekokoneko.org/backend'}${e.foto}`
+                    : `${process.env.REACT_APP_API_BASE_URL || 'https://nekokoneko.org/backend'}/uploads/user_placeholder.png`
+                }
+                alt={`Logo de ${e.nombre}`}
+                className="w-20 h-20 rounded-full object-cover mr-3"
+              />
+              <Link to={`/teams/${e.equipo_id}`} className="text-xl font-medium text-gray-800 hover:text-yellow-500 transition font-semibold">
+                {e.nombre}
+              </Link>
+            </li>
+          ))}
+          {equipos.length === 0 && (
+            <li className="text-gray-500 italic">Aún no hay equipos inscritos.</li>
+          )}
+        </ul>
       </div>
-    </GameLayout>
+
+      <div className="mb-6">
+        <Link
+          to={`/torneos/${id}/bracket`}
+          className="inline-block bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-900 transition font-semibold"
+        >
+          Ver bracket
+        </Link>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+  <a href="/backend/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
     &lt; Volver
   </a>
 
@@ -11,7 +11,7 @@
       <p class="text-red-500 mb-4"><%= error %></p>
     <% } %>
 
-    <form action="/games" method="POST" class="space-y-4">
+    <form action="/backend/games" method="POST" class="space-y-4">
       <div>
         <label class="block mb-1">Fecha y Hora</label>
         <input
@@ -49,7 +49,7 @@
           Guardar
         </button>
         <a
-          href="/games"
+          href="/backend/games"
           class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
         >
           Cancelar

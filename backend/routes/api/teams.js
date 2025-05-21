@@ -7,7 +7,7 @@ const Chat = require('../../models/Chat');
 module.exports = (pool, websocket) => {
   const router = express.Router();
   router.use(express.json());
-  const BASE_URL = process.env.BASE_URL || 'http://localhost:9134';
+  const BASE_URL = process.env.BASE_URL || 'https://nekokoneko.org/backend';
 
   const storage = multer.diskStorage({
     destination: (req, file, cb) =>
@@ -789,8 +789,8 @@ module.exports = (pool, websocket) => {
         return res.status(403).json({ error: 'Solo el capitán puede crear encuestas.' });
       }
       const r1 = await pool.query(
-        `INSERT INTO encuestas (pregunta, equipo_id, creado_por)
-         VALUES (?, ?, ?)`,
+        `INSERT INTO encuestas (pregunta, equipo_id, creado_por, creado_en)
+         VALUES (?, ?, ?, NOW())`,
         [pregunta.trim(), teamId, userId]
       );
       const pollId = Number(r1.insertId);

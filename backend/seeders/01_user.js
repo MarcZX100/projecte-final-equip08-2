@@ -39,7 +39,7 @@ module.exports = {
       let local = cleanName.toLowerCase().split(/\s+/).slice(0, 3).join('.');
       if (local.length > 50) local = local.slice(0, 50);
       const email = `${local}${i + 1}@one.piece`;
-      const foto = "/uploads/default-user.jpg";
+      const foto = (i % 10 === 0) ? "/uploads/default-user2.jpg" : "/uploads/default-user.jpg";
       const birth = `199${i % 10}-01-0${(i % 9) + 1}`;
       // const rol = 'user';
       const rol = ["Monkey D Luffy", "Roronoa Zoro", "Nami"].includes(name) ? 'admin' : 'user';

@@ -230,20 +230,25 @@ export default function MiEquipo() {
   }
   if (!teamDetails) return <p className="text-center mt-10 text-xl">No estás en ningún equipo.</p>;
 
-  const { nombre, premium, miembros, foto } = teamDetails;
-  // console.log("Team details:", teamDetails);
+  const { nombre, premium, miembros, limite_miembros, foto_equipo: foto } = teamDetails;
   const tabs = ["Chat","Pizarra","Anuncios","Calendario","Solicitudes","Encuestas"];
 
   return (
     <div className="max-w-8xl mx-auto mt-8 py-3 px-4 md:px-15 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6">
-      {/* Sidebar Miembros */}
       <aside className="bg-gray-50 p-4 md:p-6 rounded-lg w-full md:w-80 overflow-y-auto max-h-[80vh]">
-        <h2 className="text-xl font-bold mb-4">Miembros</h2>
-        {/* Console log miembros */}
-        {console.log("Miembros:", teamDetails)}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Miembros</h2>
+          <p className="text-lg text-gray-700">
+            {miembros.length}/{limite_miembros}
+          </p>
+        </div>
+        
         <ul className="space-y-4">
           {miembros.map(m => (
-            <li key={m.usuario_id} className="flex items-center justify-between p-2 rounded relative">
+            <li
+              key={m.usuario_id}
+              className="flex items-center justify-between p-2 rounded relative"
+            >
               <div className="flex items-center space-x-3">
                 <img
                   src={m.foto ? API + m.foto : API + "/uploads/default-avatar.png"}
@@ -256,7 +261,7 @@ export default function MiEquipo() {
                 </div>
               </div>
               {m.usuario_id !== userId && (
-                <div className="relative">
+                <div className="relative ml-auto">
                   <button
                     onClick={e => {
                       e.stopPropagation();
@@ -309,23 +314,25 @@ export default function MiEquipo() {
       {/* Contenido Principal */}
       <main className="w-full">
         {/* Header */}
+        {/* Header */}
         <div className="bg-gray-50 p-4 md:p-6 rounded-lg mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            {foto && (
-              <img
-                src={foto ? API + foto : `${API}/uploads/user_placeholder.png`}
-                alt={`${nombre} logo`}
-                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full"
-              />
-            )}
-            <div>
+          <div className="flex items-center gap-4">
+            <img
+              src={foto ? API + foto : `${API}/uploads/default-team.png`}
+              alt={`${nombre} logo`}
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover"
+            />
+            <div className="flex flex-col">
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">{nombre}</h1>
-              <span className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold ${
-                premium ? "bg-yellow-500 text-gray-800" : "bg-gray-200 text-gray-800"
-              }`}>
+              <span
+                className={`inline-block self-start mt-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  premium ? "bg-yellow-500 text-gray-800" : "bg-gray-200 text-gray-800"
+                }`}
+              >
                 {premium ? "Premium" : "No premium"}
               </span>
             </div>
+
           </div>
           <div className="flex flex-wrap gap-3">
             <button
@@ -344,6 +351,7 @@ export default function MiEquipo() {
             )}
           </div>
         </div>
+
 
         {/* Tabs */}
         <div className="bg-gray-50 p-4 rounded-lg mb-6 overflow-x-auto">
@@ -518,10 +526,10 @@ export default function MiEquipo() {
                         </span>
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={() => handleApprove(r.usuario_id)} className="px-2 py-2 text-white bg-green-600 rounded-full hover:bg-green-700 transition">
+                        <button onClick={() => handleApprove(r.usuario_id)} className="px-2 py-2 text-white rounded-full transition">
                           {acceptSvg()}
                         </button>
-                        <button onClick={() => handleReject(r.usuario_id)} className="px-2 py-2 text-white bg-red-600 rounded-full hover:bg-red-700 transition">
+                        <button onClick={() => handleReject(r.usuario_id)} className="px-2 py-2 text-white rounded-full transition">
                           {cancelSvg3()}
                         </button>
                       </div>

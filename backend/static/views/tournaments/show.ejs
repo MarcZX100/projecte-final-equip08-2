@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/tournaments" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">&lt; Volver</a>
+  <a href="/backend/tournaments" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">&lt; Volver</a>
 
   <div class="container mx-auto p-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-4"><%= torneo.nombre %></h1>
@@ -13,11 +13,11 @@
       <p class="mb-2"><strong>Estado:</strong> <%= torneo.estado %></p>
 
       <div class="mt-4 space-x-2">
-        <a href="/tournaments/<%= torneo.id %>/edit"
+        <a href="/backend/tournaments/<%= torneo.id %>/edit"
            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
           Editar
         </a>
-        <form action="/tournaments/<%= torneo.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Eliminar este torneo?');">
+        <form action="/backend/tournaments/<%= torneo.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Eliminar este torneo?');">
           <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full">Borrar</button>
         </form>
       </div>
@@ -30,7 +30,7 @@
       <ul class="space-y-2">
         <% inscritos.forEach(e => { %>
           <li class="p-4 bg-white rounded-md shadow">
-            <a href="/teams/<%= e.equipo_id %>" class="text-blue-600 hover:underline"><%= e.nombre %></a>
+            <a href="/backend/teams/<%= e.equipo_id %>" class="text-blue-600 hover:underline"><%= e.nombre %></a>
           </li>
         <% }) %>
       </ul>

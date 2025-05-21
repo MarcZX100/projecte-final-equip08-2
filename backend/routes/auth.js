@@ -44,7 +44,7 @@ module.exports = (pool) => {
         maxAge: 3600000 
       });
 
-      res.redirect("/");
+      res.redirect("/backend/");
 
     } catch (err) {
       next(err);
@@ -53,7 +53,7 @@ module.exports = (pool) => {
 
   router.post("/logout", (req, res) => {
     res.clearCookie("token");
-    res.redirect("/");
+    res.redirect("/backend/");
   });
 
   return router;

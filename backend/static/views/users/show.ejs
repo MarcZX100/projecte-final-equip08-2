@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
+  <a href="/backend/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
    
   <% if (success) { %>
     <div
@@ -23,7 +23,7 @@
           <div class="flex-shrink-0 mr-6">
             <% if (usuario.foto) { %>
               <img
-                src="<%= usuario.foto %>"
+                src="<%= '/backend' + usuario.foto %>"
                 alt="Foto de <%= usuario.nombre %>"
                 class="w-48 h-48 object-cover"
               >

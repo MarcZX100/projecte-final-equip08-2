@@ -13,14 +13,14 @@ function authenticateJWT(req, res, next) {
       return res.status(401).json({ message: 'No autenticado' });
     } else {
       console.log('Redirigiendo a login');
-      return res.redirect('/login');
+      return res.redirect('/backend/login');
     }
   }
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
-    if (req.user.rol != "admin" && !req.originalUrl.startsWith('/api')) {
+    if (req.user.rol != "admin" && !req.originalUrl.startsWith('/backend/api')) {
       return res.status(403).json({ message: 'No tienes permisos para acceder al backoffice' });
     }
     next();
@@ -29,7 +29,7 @@ function authenticateJWT(req, res, next) {
     if (req.originalUrl.startsWith('/api')) {
       return res.status(401).json({ message: 'Token inválido' });
     } else {
-      return res.redirect('/login');
+      return res.redirect('/backend/login');
     }
   }
 }

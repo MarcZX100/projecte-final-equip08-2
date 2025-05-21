@@ -1,17 +1,17 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
+  <a href="/backend/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
 
   <div class="min-h-screen">
     <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-8">
         <h1 class="text-2xl text-gray-800 font-bold mb-10 text-center">Editar Usuario</h1>
-        <form action="/users/<%= usuario.id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="/backend/users/<%= usuario.id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="space-y-4">
           
           <div class="flex items-start space-x-6 mb-6">
             <div>
               <img
                 id="photoPreview"
-                src="<%= usuario.foto || '/images/default-avatar.png' %>"
+                src="<%= usuario.foto ? '/backend' + usuario.foto : '/backend/images/default-user.jpg' %>"
                 alt="Foto de usuario"
                 class="w-36 h-40 hover:opacity-70 transition object-cover cursor-pointer"
               >
@@ -74,7 +74,7 @@
             <button type="submit" class="w-3/4 cursor-pointer bg-gray-800 hover:bg-gray-900 transition font-semibold text-white py-3 px-4 rounded-full">
               Actualizar
             </button>
-            <a href="/users" class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full">
+            <a href="/backend/users" class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full">
               Cancelar
             </a>
           </div>

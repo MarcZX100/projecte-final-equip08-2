@@ -91,7 +91,7 @@ module.exports = (pool) => {
       );
 
       req.session.flash = 'Equipo creado con éxito';
-      res.redirect("/teams");
+      res.redirect("/backend/teams");
     } catch (err) {
       next(err);
     }
@@ -157,7 +157,7 @@ module.exports = (pool) => {
       await pool.query("DELETE FROM equipos WHERE id = ?", [req.params.id]);
 
       req.session.flash = 'Equipo eliminado con éxito'
-      res.redirect("/teams");
+      res.redirect("/backend/teams");
     } catch (err) {
       next(err);
     }

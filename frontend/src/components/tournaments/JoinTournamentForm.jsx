@@ -1,8 +1,7 @@
+// src/components/tournaments/JoinTournamentForm.jsx
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
-
-const API = process.env.REACT_APP_API_BASE_URL || "http://nekokoneko.org/backend";
 
 function JoinTournamentForm({
   torneoId,
@@ -19,26 +18,27 @@ function JoinTournamentForm({
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Obtener equipo y si ya está inscrito globalmente
   useEffect(() => {
     if (!token) return;
     apiFetch(`/api/tournaments/miembros-equipo/capitan`)
       .then(res => {
-        if (!res.ok) throw new Error('Error al obtener datos del equipo');
+        if (!res.ok) throw new Error();
         return res.json();
       })
       .then(data => {
         setEquipo(data.equipo);
         setGlobalInscrito(data.inscrito);
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
         setEquipo(null);
         setGlobalInscrito(false);
       });
-  }, [token]);
+  }, [token, apiFetch]);
 
+  // Recalcular registro local cuando cambian props
   useEffect(() => {
-    if (equipo && Array.isArray(currentEquipos)) {
+    if (equipo) {
       const found = currentEquipos.some(e => e.equipo_id === equipo.id);
       setIsRegistered(found);
     }
@@ -48,18 +48,14 @@ function JoinTournamentForm({
     return <p>Inicia sesión para unirte al torneo.</p>;
   if (!equipo) 
     return <p>No eres capitán de ningún equipo.</p>;
-
-  if (globalInscrito && !isRegistered) {
+  if (globalInscrito && !isRegistered)
     return <p className="text-center mt-4 font-semibold text-red-600">
       Ya estás inscrito en otro torneo
     </p>;
-  }
-
-  if (!isRegistered && currentEquipos.length >= maxEquipos) {
+  if (!isRegistered && currentEquipos.length >= maxEquipos)
     return <p className="text-center mt-4 font-semibold text-red-600">
       El torneo ya está lleno
     </p>;
-  }
 
   const handleJoin = async () => {
     setLoading(true);
@@ -67,16 +63,12 @@ function JoinTournamentForm({
     try {
       const res = await apiFetch(`/api/tournaments/${torneoId}/join`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ equipo_id: equipo.id })
       });
       const data = await res.json();
       if (res.ok) {
         setMensaje(data.message);
-        setIsRegistered(true);
-        setGlobalInscrito(true);      
         onJoined(equipo);
       } else {
         setMensaje(data.error);
@@ -94,16 +86,12 @@ function JoinTournamentForm({
     try {
       const res = await apiFetch(`/api/tournaments/${torneoId}/join`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ equipo_id: equipo.id })
       });
       const data = await res.json();
       if (res.ok) {
         setMensaje(data.message);
-        setIsRegistered(false);
-        setGlobalInscrito(false);   
         onLeft(equipo);
       } else {
         setMensaje(data.error);
@@ -116,16 +104,17 @@ function JoinTournamentForm({
   };
 
   return (
-    <div className="">
+    <div>
       <p>Equipo: <strong>{equipo.nombre}</strong></p>
       <button
-        type="button"                      
+        type="button"
         onClick={isRegistered ? handleLeave : handleJoin}
         disabled={loading}
-        className={`px-4 py-2 rounded mt-2 
+        className={`px-4 py-2 rounded-full mt-2 transition font-semibold text-white
           ${isRegistered
-            ? 'bg-red-500 hover:bg-red-600 rounded-full cursor-pointer transition font-semibold text-white'
-            : 'bg-gray-800 hover:bg-gray-900 cursor-pointer rounded-full transition font-semibold text-white'}
+            ? 'bg-red-500 hover:bg-red-600'
+            : 'bg-gray-800 hover:bg-gray-900'
+          }
           disabled:opacity-50`}
       >
         {loading

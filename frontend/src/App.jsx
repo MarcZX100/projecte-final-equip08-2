@@ -4,12 +4,14 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation
 } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { UserContext } from './context/UserContext';
 import { useApi } from './hooks/useApi';
 
 import { Footer } from './components/layout/Footer';
+import { Header } from './components/layout/Header';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import Inicio from './components/users/Inicio';
@@ -32,7 +34,6 @@ import CreateTournament from './components/tournaments/CreateTournament';
 import BracketView from './components/tournaments/BracketView';
 import Map from './components/map/Map';
 import 'leaflet/dist/leaflet.css';
-import { Header } from './components/layout/Header';
 
 function App() {
   const [token, setTokenState] = useState(localStorage.getItem("token2"));
@@ -58,56 +59,70 @@ function App() {
         <Toaster />
         <Header />
 
-        <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/teams" element={<TeamsList />} />
-          <Route path="/teams/:id" element={<TeamDetails />} />
-          <Route path="/users" element={<UserList />} />
-          <Route path="/users/:id" element={<UserProfile />} />
+        <MainRoutes />
 
-          <Route
-            path="/login"
-            element={token ? <Navigate to="/" replace /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={token ? <Navigate to="/" replace /> : <Register />}
-          />
-
-          {token ? (
-            <>
-              <Route path="/chats/:chatId?" element={<ChatList />} />
-              <Route path="/chat/:chatId" element={<Chat />} />
-              <Route path="/profile" element={<Profile />} />
-
-              <Route path="/teams/new" element={<TeamCreate />} />
-              <Route path="/teams/my" element={<MiEquipo />} />
-
-              <Route path="/games" element={<GamesList />} />
-              <Route path="/games/new" element={<GameCreate />} />
-              <Route path="/games/:id" element={<GameDetails />} />
-              <Route path="/games/:id/edit" element={<GameEdit />} />
-
-              <Route path="/torneos" element={<TournamentsList />} />
-              <Route path="/torneos/new" element={<CreateTournament />} />
-              <Route path="/torneos/:id" element={<TournamentDetail />} />
-              <Route path="/torneos/:id/bracket" element={<BracketView />} />
-
-              <Route path="/map" element={<Map />} />
-
-              {/* Redirect de todo a home */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          ) : (
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          )}
-        </Routes>
-        <Footer />
+        <ConditionalFooter />
       </Router>
     </UserContext.Provider>
   );
 }
 
+function MainRoutes() {
+  const { token } = React.useContext(UserContext);
+
+  return (
+    <Routes>
+      <Route path="/" element={<Inicio />} />
+      <Route path="/teams" element={<TeamsList />} />
+      <Route path="/teams/:id" element={<TeamDetails />} />
+      <Route path="/users" element={<UserList />} />
+      <Route path="/users/:id" element={<UserProfile />} />
+
+      <Route
+        path="/login"
+        element={token ? <Navigate to="/" replace /> : <Login />}
+      />
+      <Route
+        path="/register"
+        element={token ? <Navigate to="/" replace /> : <Register />}
+      />
+
+      {token ? (
+        <>
+          <Route path="/chats/:chatId?" element={<ChatList />} />
+          <Route path="/chat/:chatId" element={<Chat />} />
+          <Route path="/profile" element={<Profile />} />
+
+          <Route path="/teams/new" element={<TeamCreate />} />
+          <Route path="/teams/my" element={<MiEquipo />} />
+
+          <Route path="/games" element={<GamesList />} />
+          <Route path="/games/new" element={<GameCreate />} />
+          <Route path="/games/:id" element={<GameDetails />} />
+          <Route path="/games/:id/edit" element={<GameEdit />} />
+
+          <Route path="/torneos" element={<TournamentsList />} />
+          <Route path="/torneos/new" element={<CreateTournament />} />
+          <Route path="/torneos/:id" element={<TournamentDetail />} />
+          <Route path="/torneos/:id/bracket" element={<BracketView />} />
+
+          <Route path="/map" element={<Map />} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </>
+      ) : (
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      )}
+    </Routes>
+  );
+}
+
+function ConditionalFooter() {
+  const { pathname } = useLocation();
+  const noFooterOn = ['/login', '/register', '/games/new', '/torneos/new', '/teams/new'];
+
+  return noFooterOn.includes(pathname) ? null : <Footer />;
+}
 
 function AuthInitializer() {
   const { token, setHasTeam } = React.useContext(UserContext);
@@ -121,8 +136,8 @@ function AuthInitializer() {
     (async () => {
       try {
         const res = await apiFetch('/api/users/me/team');
-        let team = await res.json();
-        setHasTeam(team?.id);
+        const team = await res.json();
+        setHasTeam(team?.id || false);
       } catch {
         setHasTeam(false);
       }

@@ -18,13 +18,13 @@
 
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl text-gray-800 font-bold">Lista de Torneos</h1>
-      <a href="/tournaments/new"
+      <a href="/backend/tournaments/new"
          class="bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-300 transition py-2 px-4 rounded-full">
         + Nuevo Torneo
       </a>
     </div>
 
-    <form method="GET" action="/tournaments" class="mb-6 flex items-center space-x-4">
+    <form method="GET" action="/backend/tournaments" class="mb-6 flex items-center space-x-4">
       <input
         type="text"
         name="q"
@@ -62,9 +62,9 @@
             <td class="px-4 py-2 border border-gray-300"><%= t.estado %></td>
             <td class="px-4 py-2 border border-gray-300"><%= t.inscritos %></td>
             <td class="px-4 py-2 border border-gray-300 text-center space-x-2">
-              <a href="/tournaments/<%= t.id %>" class="text-green-500">Ver</a>
-              <a href="/tournaments/<%= t.id %>/edit" class="text-blue-500">Editar</a>
-              <form action="/tournaments/<%= t.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Seguro que deseas borrar este torneo?');">
+              <a href="/backend/tournaments/<%= t.id %>" class="text-green-500">Ver</a>
+              <a href="/backend/tournaments/<%= t.id %>/edit" class="text-blue-500">Editar</a>
+              <form action="/backend/tournaments/<%= t.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Seguro que deseas borrar este torneo?');">
                 <button type="submit" class="text-red-500">Borrar</button>
               </form>
             </td>
@@ -75,7 +75,7 @@
 
     <nav class="mt-6 flex justify-center items-center space-x-2">
       <% if (currentPage > 1) { %>
-        <a href="/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage-1}` %>"
+        <a href="/backend/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage-1}` %>"
            class="px-3 py-1 border rounded hover:bg-gray-200">« Anterior</a>
       <% } else { %>
         <span class="px-3 py-1 border text-gray-400 cursor-not-allowed">« Anterior</span>
@@ -86,13 +86,13 @@
         <% if (p === current) { %>
           <span class="px-3 py-1 border bg-gray-800 text-white"><%= p %></span>
         <% } else { %>
-          <a href="/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${p}` %>"
+          <a href="/backend/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${p}` %>"
              class="px-3 py-1 border rounded hover:bg-gray-200"><%= p %></a>
         <% } %>
       <% } %>
 
       <% if (currentPage < totalPages) { %>
-        <a href="/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage+1}` %>"
+        <a href="/backend/tournaments?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage+1}` %>"
            class="px-3 py-1 border rounded hover:bg-gray-200">Siguiente »</a>
       <% } else { %>
         <span class="px-3 py-1 border text-gray-400 cursor-not-allowed">Siguiente »</span>

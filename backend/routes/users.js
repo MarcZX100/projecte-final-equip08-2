@@ -96,6 +96,8 @@ module.exports = (pool) => {
       let fotoPath = '';
       if (req.file) {
         fotoPath = '/uploads/' + req.file.filename;
+      } else {
+        fotoPath = '/uploads/default-user.jpg';
       }
 
       await pool.query(
@@ -106,7 +108,7 @@ module.exports = (pool) => {
       );
 
       req.session.flash = 'Usuario creado con éxito';
-      res.redirect("/users");
+      res.redirect("/backend/users");
     } catch (err) {
       next(err);
     }
@@ -184,7 +186,7 @@ module.exports = (pool) => {
       await pool.query("DELETE FROM usuarios WHERE id = ?", [req.params.id]);
       
       req.session.flash = 'Usuario eliminado con éxito'
-      res.redirect("/users");
+      res.redirect("/backend/users");
     } catch (err) {
       next(err);
     }

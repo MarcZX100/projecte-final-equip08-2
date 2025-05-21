@@ -152,24 +152,14 @@ export const Header = () => {
   const badge = unread === 0 ? null : unread > 9 ? '+9' : unread;
 
   const navItems = [
-<<<<<<< Updated upstream
     { to: '/', label: 'Inicio', show: true },
     { to: '/users', label: 'Usuarios', show: !!token },
     { to: '/teams', label: 'Equipos', show: true },
     { to: '/games', label: 'Partidos', show: !!token },
     { to: '/torneos', label: 'Torneos', show: !!token },
-    { to: 'http://localhost:3000', label: 'Backoffice', show: admin },
+    { to: 'https://nekokoneko.org/backend', label: 'Backoffice', show: admin, forceNewTab: true },
     { to: '/map', label: mapSvg, show: !!token },
     { to: '/chats', label: chatSvg, show: !!token },
-=======
-    { to: '/',           label: 'Inicio',    show: true },
-    { to: '/users',      label: 'Usuarios',  show: !!token },
-    { to: '/games',      label: 'Partidos',  show: !!token },
-    { to: '/teams',      label: 'Equipos',   show: true },
-    { to: '/torneos',    label: 'Torneos',   show: !!token },
-    { to: 'http://nekokoneko.org/backend',  label: 'Backoffice', show: admin },
-    { to: '/chats',      label: chatSvg,     show: !!token },
->>>>>>> Stashed changes
     {
       to: hasTeam ? '/teams/my' : '/teams/new',
       label: teamSvg,
@@ -196,7 +186,6 @@ export const Header = () => {
       (['/teams/my', '/teams/new', '/map', '/chats'].includes(i.to) ||
         i.key === 'notifs')
   );
-
   const iconItems = navItems.filter(
     i =>
       i.show &&
@@ -211,18 +200,24 @@ export const Header = () => {
       <div className="flex items-center ml-6 space-x-8">
         <p className="text-4xl font-bold font-calsans">TACTIX</p>
         <div className="hidden md:flex space-x-6">
-          {leftNavItems.map(({ to, label }) => {
+          {leftNavItems.map(({ to, label, forceNewTab }) => {
             const active = location.pathname === to;
-            return (
-              <NavLink
+            const commonClasses = `text-2xl font-semibold pb-1 transition-colors ${
+              active ? 'border-b-3 border-[#ffc31f] text-[#f0b921]' : 'hover:text-gray-500'
+            }`;
+
+            return forceNewTab ? (
+              <a
                 key={to}
-                to={to}
-                className={`text-2xl font-semibold pb-1 transition-colors ${
-                  active
-                    ? 'border-b-3 border-[#ffc31f] text-[#f0b921]'
-                    : 'hover:text-gray-500'
-                }`}
+                href={to}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={commonClasses}
               >
+                {label}
+              </a>
+            ) : (
+              <NavLink key={to} to={to} className={commonClasses}>
                 {label}
               </NavLink>
             );
@@ -235,20 +230,27 @@ export const Header = () => {
           {rightNavItems.map(item => {
             if (item.to) {
               const active = location.pathname === item.to;
-              return (
-                <NavLink
+              const commonClasses = `text-2xl font-semibold pb-1 transition-colors ${
+                active ? 'border-b-3 border-[#ffc31f] text-[#f0b921]' : 'hover:text-gray-500'
+              }`;
+
+              return item.forceNewTab ? (
+                <a
                   key={item.to}
-                  to={item.to}
-                  className={`text-2xl font-semibold pb-1 transition-colors ${
-                    active
-                      ? 'border-b-3 border-[#ffc31f] text-[#f0b921]'
-                      : 'hover:text-gray-500'
-                  }`}
+                  href={item.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={commonClasses}
                 >
+                  {item.label}
+                </a>
+              ) : (
+                <NavLink key={item.to} to={item.to} className={commonClasses}>
                   {item.label}
                 </NavLink>
               );
             }
+
             return (
               <div key={item.key} ref={notifRef} className="relative">
                 <button onClick={item.onClick} className="cursor-pointer">
@@ -381,7 +383,6 @@ export const Header = () => {
           className="absolute top-full left-0 w-full bg-white z-40 md:hidden"
         >
           <nav className="flex flex-col p-4 space-y-2">
-          
             {navItems
               .filter(i => i.show)
               .map(item => {
@@ -476,7 +477,19 @@ export const Header = () => {
                   );
                 }
 
-                return (
+                // <-- Updated default NavLink to conditional new tab -->
+                return item.forceNewTab ? (
+                  <a
+                    key={item.to || item.key}
+                    href={item.to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl font-semibold py-2 block"
+                    onClick={() => setOpenMobile(false)}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
                   <NavLink
                     key={item.to || item.key}
                     to={item.to}

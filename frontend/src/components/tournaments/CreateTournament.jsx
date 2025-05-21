@@ -233,6 +233,7 @@ export default function CreateTournament() {
           </button>
         </form>
       </div>
+      <div className="h-20" />
     </div>
   );
 }
