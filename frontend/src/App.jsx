@@ -34,6 +34,7 @@ import CreateTournament from './components/tournaments/CreateTournament';
 import BracketView from './components/tournaments/BracketView';
 import Map from './components/map/Map';
 import 'leaflet/dist/leaflet.css';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [token, setTokenState] = useState(localStorage.getItem("token2"));
@@ -55,6 +56,7 @@ function App() {
   return (
     <UserContext.Provider value={{ token, setToken, logout, hasTeam, setHasTeam }}>
       <AuthInitializer />
+      <Analytics/>
       <Router>
         <Toaster />
         <Header />
