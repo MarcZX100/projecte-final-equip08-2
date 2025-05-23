@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { teamSvg, mapSvg, notiSvg, chatSvg, exitSvg, profileSvg, loginSvg } from './svg';
 import { useApi } from '../../hooks/useApi';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
 const WS_URL = process.env.REACT_APP_WS_URL || 'ws://nekokoneko.org/ws/';
 
 export const Header = () => {
@@ -157,7 +157,7 @@ export const Header = () => {
     { to: '/teams', label: 'Equipos', show: true },
     { to: '/games', label: 'Partidos', show: !!token },
     { to: '/torneos', label: 'Torneos', show: !!token },
-    { to: 'https://nekokoneko.org/backend', label: 'Backoffice', show: admin, forceNewTab: true },
+    { to: 'https://projecte-final-equip08-2.onrender.com', label: 'Backoffice', show: admin, forceNewTab: true },
     { to: '/map', label: mapSvg, show: !!token },
     { to: '/chats', label: chatSvg, show: !!token },
     {

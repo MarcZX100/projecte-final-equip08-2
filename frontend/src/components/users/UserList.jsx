@@ -5,7 +5,7 @@ import { UserContext } from "../../context/UserContext";
 import { useApi } from "../../hooks/useApi";
 import { dropdownSvg, profileSvg, chatSvg2, loadingSvg } from "../layout/svg";
 
-const API_URL = process.env.REACT_APP_API_BASE_URL || "http://nekokoneko.org/backend";
+const API_URL = process.env.REACT_APP_API_BASE_URL || "http://projecte-final-equip08-2.onrender.com";
 
 const UsersList = () => {
   const { apiFetch } = useApi();

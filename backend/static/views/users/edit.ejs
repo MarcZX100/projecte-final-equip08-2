@@ -11,7 +11,7 @@
             <div>
               <img
                 id="photoPreview"
-                src="<%= usuario.foto ? '/backend' + usuario.foto : '/images/default-user.jpg' %>"
+                src="<%= usuario.foto ? usuario.foto : '/images/default-user.jpg' %>"
                 alt="Foto de usuario"
                 class="w-36 h-40 hover:opacity-70 transition object-cover cursor-pointer"
               >

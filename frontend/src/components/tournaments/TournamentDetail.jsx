@@ -122,8 +122,8 @@ export default function TournamentDetail() {
               <img
                 src={
                   e.foto
-                    ? `${process.env.REACT_APP_API_BASE_URL || 'https://nekokoneko.org/backend'}${e.foto}`
-                    : `${process.env.REACT_APP_API_BASE_URL || 'https://nekokoneko.org/backend'}/uploads/user_placeholder.png`
+                    ? `${process.env.REACT_APP_API_BASE_URL || 'https://projecte-final-equip08-2.onrender.com'}${e.foto}`
+                    : `${process.env.REACT_APP_API_BASE_URL || 'https://projecte-final-equip08-2.onrender.com'}/uploads/user_placeholder.png`
                 }
                 alt={`Logo de ${e.nombre}`}
                 className="w-20 h-20 rounded-full object-cover mr-3"

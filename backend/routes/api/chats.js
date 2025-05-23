@@ -52,7 +52,7 @@ module.exports = (pool, websocket) => {
           if (teamRows.length) {
             const raw = teamRows[0].foto;
             teamPhoto = raw && raw.startsWith('/')
-              ? `${process.env.BASE_URL || 'https://nekokoneko.org/backend'}${raw}`
+              ? `${process.env.BASE_URL || 'https://projecte-final-equip08-2.onrender.com'}${raw}`
               : raw;
           }
         }

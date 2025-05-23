@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const BASE_URL = process.env.BASE_URL || 'https://nekokoneko.org/backend';
+const BASE_URL = process.env.BASE_URL || 'https://projecte-final-equip08-2.onrender.com';
 
 module.exports = (pool) => {
   const router = express.Router();

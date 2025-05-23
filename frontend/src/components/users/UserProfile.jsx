@@ -24,7 +24,7 @@ const UserProfile = () => {
   const [team,   setTeam]   = useState(null);
   const [stats,  setStats]  = useState(null);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+  const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
 
   const currentUserId = token
     ? (() => {

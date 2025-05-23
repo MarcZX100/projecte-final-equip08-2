@@ -224,7 +224,7 @@ export default function Chat({ chatId: propChatId }) {
         ) : (
           <> 
             <img
-              src={"http://nekokoneko.org/backend" + (otherUser.foto || "/uploads/user_placeholder.png")}
+              src={"http://projecte-final-equip08-2.onrender.com" + (otherUser.foto || "/uploads/user_placeholder.png")}
               alt={otherUser.nombre || `Usuario #${currentUserId}`}
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -243,7 +243,7 @@ export default function Chat({ chatId: propChatId }) {
             <div key={i} className={`flex ${isMine ? 'justify-end' : 'justify-start'} mb-2`}>
               <div className="flex items-start space-x-2">
                 <img
-                  src={"http://nekokoneko.org/backend" + (sender.foto || "/uploads/user_placeholder.png")}
+                  src={"http://projecte-final-equip08-2.onrender.com" + (sender.foto || "/uploads/user_placeholder.png")}
                   alt={sender.nombre}
                   className="w-6 h-6 rounded-full object-cover mt-1"
                 />

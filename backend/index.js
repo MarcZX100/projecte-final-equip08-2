@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: ["http://nekokoneko.org"],
+  origin: ["https://projecte-final-equip08-2.onrender.com"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
@@ -140,7 +140,7 @@ async function startServer() {
     //   console.log(`🌐 Servidor escuchando en http://localhost:${PORT}`);
     // });
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Backend listening on https://nekokoneko.org/backend`);
+      console.log(`Backend listening on https://projecte-final-equip08-2.onrender.com`);
     });
 
   } catch (err) {

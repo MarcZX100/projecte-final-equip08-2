@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
 const TEAM_PLACEHOLDER = `${API_BASE_URL}/uploads/user_placeholder.png`;
 
 const TeamCreate = () => {

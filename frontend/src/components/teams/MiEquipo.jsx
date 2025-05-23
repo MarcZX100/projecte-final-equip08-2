@@ -18,7 +18,7 @@ import {
   loadingSvg
 } from "../layout/svg";
 
-const API = process.env.REACT_APP_API_BASE_URL || "http://nekokoneko.org/backend";
+const API = process.env.REACT_APP_API_BASE_URL || "http://projecte-final-equip08-2.onrender.com";
 
 export default function MiEquipo() {
   const { apiFetch } = useApi();

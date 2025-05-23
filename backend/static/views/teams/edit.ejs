@@ -18,7 +18,7 @@
           <div>
             <img
               id="logoPreview"
-              src="<%= equipo.foto ? '/backend' + equipo.foto : '/uploads/user_placeholder.png' %>"
+              src="<%= equipo.foto ? equipo.foto : '/uploads/user_placeholder.png' %>"
               alt="Logo de <%= equipo.nombre %>"
               class="w-36 h-40 hover:opacity-70 transition object-cover cursor-pointer"
             >

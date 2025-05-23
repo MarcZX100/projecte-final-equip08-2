@@ -1,7 +1,7 @@
 import { useContext, useCallback } from 'react';
 import { UserContext } from '../context/UserContext';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
 
 
 export function useApi() {

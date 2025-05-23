@@ -7,7 +7,7 @@ const Chat = require('../../models/Chat');
 module.exports = (pool, websocket) => {
   const router = express.Router();
   router.use(express.json());
-  const BASE_URL = process.env.BASE_URL || 'https://nekokoneko.org/backend';
+  const BASE_URL = process.env.BASE_URL || 'https://projecte-final-equip08-2.onrender.com';
 
   const storage = multer.diskStorage({
     destination: (req, file, cb) =>

@@ -17,7 +17,7 @@ export const Profile = () => {
   const { apiFetch }  = useApi();
   const { token }     = useContext(UserContext);
   const navigate      = useNavigate();
-  const API_URL       = process.env.REACT_APP_API_BASE_URL || 'http://nekokoneko.org/backend';
+  const API_URL       = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
 
   const [profile,   setProfile]   = useState(null);
   const [stats,     setStats]     = useState({});
