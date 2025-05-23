@@ -42,11 +42,6 @@ app.set('trust proxy', true);
 app.disable('x-powered-by');
 
 
-const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/nekokoneko.org/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/nekokoneko.org/fullchain.pem')
-};
-
 app.use((req, res, next) => {
   let user = null;
   const token = req.cookies.token;
