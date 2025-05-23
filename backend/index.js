@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: ["https://projecte-final-equip08-2.onrender.com"],
+  origin: ["https://projecte-final-equip08-2.onrender.com", "https://projecte-final-equip08-2-u792.vercel.app"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
