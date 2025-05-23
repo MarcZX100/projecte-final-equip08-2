@@ -95,7 +95,7 @@ const { router: geocodeRouter } = require('./routes/api/geocode');
 app.use('/api/geocode', geocodeRouter);
 
 
-app.get("/backend", (req, res) => {
+app.get("/", (req, res) => {
   res.render("home", { user: res.locals.user });
 });
 
