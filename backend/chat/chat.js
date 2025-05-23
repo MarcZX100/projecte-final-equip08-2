@@ -1,36 +1,43 @@
-const WebSocket     = require('ws');
-const jwt           = require('jsonwebtoken');
-const Chat          = require('../models/Chat');
-const Notification  = require('../models/Notification');
-const Client        = require('./client');
+const WebSocket    = require('ws');
+const jwt          = require('jsonwebtoken');
+const Chat         = require('../models/Chat');
+const Notification = require('../models/Notification');
+const Client       = require('./client');
 
 class ChatServer {
-  constructor({ host, port }) {
-    this.clients     = new Map();
-    this.chatRooms   = new Map();
-    this.notifRooms  = new Map();
-    this.wss         = new WebSocket.Server({ host, port });
+  /**
+   * @param {object}   opts
+   * @param {http.Server} opts.server — HTTP(S) server instance from Express
+   * @param {string}      opts.path   — mount point for WebSocket, e.g. "/ws"
+   */
+  constructor({ server, path }) {
+    if (!server || !path) {
+      throw new Error("ChatServer requires { server, path }");
+    }
+
+    this.wss = new WebSocket.Server({ server, path });
+
+    this.clients    = new Map(); // clientId → Client
+    this.chatRooms  = new Map(); // chatId → Set<Client>
+    this.notifRooms = new Map(); // userId → Set<Client>
 
     this.wss.on('connection', (ws, req) => {
-      const url = new URL(req.url, `http://${req.headers.host}`);
+      const url   = new URL(req.url, `http://${req.headers.host}`);
       const token = url.searchParams.get('token');
       if (!token) {
-        ws.close(4001, 'Authentication required');
-        return;
+        return ws.close(4001, 'Authentication required');
       }
 
       let payload;
       try {
         payload = jwt.verify(token, process.env.JWT_SECRET);
       } catch {
-        ws.close(4002, 'Invalid token');
-        return;
+        return ws.close(4002, 'Invalid token');
       }
 
       const userId = payload.id || payload.userId || payload.sub;
       if (!userId) {
-        ws.close(4003, 'Invalid user ID');
-        return;
+        return ws.close(4003, 'Invalid user ID');
       }
 
       const client = new Client(ws);
@@ -38,18 +45,14 @@ class ChatServer {
       this.clients.set(client.id, client);
 
       ws.on('message', raw => this._onMessage(client, raw));
-      ws.on('close', () => this._onClose(client));
+      ws.on('close',  ()  => this._onClose(client));
     });
   }
 
   _onClose(client) {
     this.clients.delete(client.id);
-    for (const subs of this.chatRooms.values()) {
-      subs.delete(client);
-    }
-    for (const subs of this.notifRooms.values()) {
-      subs.delete(client);
-    }
+    for (const subs of this.chatRooms.values())   subs.delete(client);
+    for (const subs of this.notifRooms.values())  subs.delete(client);
   }
 
   async _onMessage(client, raw) {
@@ -64,12 +67,14 @@ class ChatServer {
     switch (msg.type) {
       case 'subscribe': {
         const roomId = msg.chatId.toString();
-        const chat = await Chat.findOne({ _id: roomId, participants: client.id });
+        const chat = await Chat.findOne({
+          _id: roomId,
+          participants: client.id
+        });
         if (!chat) {
           client.send({ error: 'Access denied to chat' });
           return;
         }
-
         if (!this.chatRooms.has(roomId)) {
           this.chatRooms.set(roomId, new Set());
         }
@@ -80,7 +85,6 @@ class ChatServer {
 
       case 'subscribeNotif': {
         const uid = client.id.toString();
-
         if (!this.notifRooms.has(uid)) {
           this.notifRooms.set(uid, new Set());
         }
@@ -108,7 +112,10 @@ class ChatServer {
         }
 
         try {
-          const chat = await Chat.findOne({ _id: chatId, participants: client.id });
+          const chat = await Chat.findOne({
+            _id: chatId,
+            participants: client.id
+          });
           if (!chat) {
             console.error('Chat not found or user not participant');
             return;
@@ -120,6 +127,7 @@ class ChatServer {
             content:   msg.content,
             timestamp: new Date()
           };
+
           if (!chat.isGroup) {
             const other = chat.participants
               .map(pid => pid.toString())
@@ -140,23 +148,20 @@ class ChatServer {
             }
           }
 
-       
           const destinatarios = chat.isGroup
-            ? chat.participants.map(pid => pid.toString()).filter(pid => pid !== client.id.toString())
+            ? chat.participants.map(pid => pid.toString())
+                                .filter(pid => pid !== client.id.toString())
             : [ messageData.to.toString() ];
 
           for (const uid of destinatarios) {
-            let tituloNotif;
-            if (msg.type === 'chat') {
-              tituloNotif = chat.isGroup
-                ? `Nuevo mensaje en "${chat.name || 'grupo'}"`
-                : 'Mensaje recibido';
-            } else { 
-              tituloNotif = chat.isGroup
-                ? `Nuevo archivo en "${chat.name || 'grupo'}"`
+            const tituloNotif = msg.type === 'chat'
+              ? chat.isGroup
+                ? `Nuevo mensaje en "${chat.name||'grupo'}"`
+                : 'Mensaje recibido'
+              : chat.isGroup
+                ? `Nuevo archivo en "${chat.name||'grupo'}"`
                 : 'Archivo recibido';
-            }
-            
+
             const notif = new Notification({
               usuario_id: uid,
               titulo:     tituloNotif,
