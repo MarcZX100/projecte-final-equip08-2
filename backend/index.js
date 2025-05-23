@@ -131,6 +131,9 @@ async function startServer() {
     app.use("/api/profile", require("./routes/api/profile")(pool, websocket));
     app.use('/api/notifications', require('./routes/api/notifications')(pool, websocket));
     
+    app.get('/health', (req, res) => {
+      res.status(200).send('OK');
+    });
 
     const PORT = process.env.PORT;
     // app.listen(PORT, () => {
