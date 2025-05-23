@@ -6,7 +6,7 @@ import { teamSvg, mapSvg, notiSvg, chatSvg, exitSvg, profileSvg, loginSvg } from
 import { useApi } from '../../hooks/useApi';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://projecte-final-equip08-2.onrender.com';
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://nekokoneko.org/ws/';
+const WS_URL = process.env.REACT_APP_WS_URL || 'wss://projecte-final-equip08-2.onrender.com/ws/';
 
 export const Header = () => {
   const { apiFetch } = useApi();

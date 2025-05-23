@@ -5,7 +5,7 @@ import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024;
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://nekokoneko.org/ws';
+const WS_URL = process.env.REACT_APP_WS_URL || 'wss://projecte-final-equip08-2.onrender.com/ws';
 
 export default function Chat({ chatId: propChatId }) {
   const { apiFetch } = useApi();
