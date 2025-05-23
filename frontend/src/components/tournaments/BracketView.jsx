@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef, useContext, useLayoutEffec
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { useApi } from '../../hooks/useApi';
-import { SingleEliminationBracket, Match } from '@g-loot/react-tournament-brackets';
+// import { SingleEliminationBracket, Match } from '@g-loot/react-tournament-brackets';
 
 export default function BracketView() {
   const { id } = useParams();
@@ -246,10 +246,12 @@ export default function BracketView() {
               transformOrigin: '0 0'
             }}
           >
-            <SingleEliminationBracket
+            
+          {/*<SingleEliminationBracket
               matches={bracketData}
               matchComponent={Match}
             />
+          */}
           </div>
         </div>
       )}
