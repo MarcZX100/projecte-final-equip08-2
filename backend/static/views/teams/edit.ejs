@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/backend/teams" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+  <a href="/teams" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
     &lt; Volver
   </a>
 
@@ -9,7 +9,7 @@
       <h1 class="text-2xl text-gray-800 font-bold mb-10 text-center">Editar Equipo</h1>
 
       <form 
-        action="/backend/teams/<%= equipo.id %>?_method=PUT" 
+        action="/teams/<%= equipo.id %>?_method=PUT" 
         method="POST" 
         enctype="multipart/form-data" 
         class="space-y-4"
@@ -18,7 +18,7 @@
           <div>
             <img
               id="logoPreview"
-              src="<%= equipo.foto ? '/backend' + equipo.foto : '/backend/uploads/user_placeholder.png' %>"
+              src="<%= equipo.foto ? '/backend' + equipo.foto : '/uploads/user_placeholder.png' %>"
               alt="Logo de <%= equipo.nombre %>"
               class="w-36 h-40 hover:opacity-70 transition object-cover cursor-pointer"
             >
@@ -72,7 +72,7 @@
             Actualizar
           </button>
           <a 
-            href="/backend/teams/<%= equipo.id %>" 
+            href="/teams/<%= equipo.id %>" 
             class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
           >
             Cancelar

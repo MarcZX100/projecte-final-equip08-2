@@ -108,7 +108,7 @@ module.exports = (pool) => {
       );
 
       req.session.flash = 'Usuario creado con éxito';
-      res.redirect("/backend/users");
+      res.redirect("/users");
     } catch (err) {
       next(err);
     }
@@ -186,7 +186,7 @@ module.exports = (pool) => {
       await pool.query("DELETE FROM usuarios WHERE id = ?", [req.params.id]);
       
       req.session.flash = 'Usuario eliminado con éxito'
-      res.redirect("/backend/users");
+      res.redirect("/users");
     } catch (err) {
       next(err);
     }

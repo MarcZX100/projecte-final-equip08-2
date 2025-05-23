@@ -139,7 +139,7 @@ module.exports = (pool) => {
         ]
       );
       req.session.flash = 'Torneo creado con éxito';
-      res.redirect('/backend/tournaments');
+      res.redirect('/tournaments');
     } catch (err) {
       next(err);
     }
@@ -318,7 +318,7 @@ module.exports = (pool) => {
     try {
       await pool.query(`DELETE FROM torneos WHERE id = ?`, [req.params.id]);
       req.session.flash = 'Torneo eliminado con éxito';
-      res.redirect('/backend/tournaments');
+      res.redirect('/tournaments');
     } catch (err) {
       next(err);
     }

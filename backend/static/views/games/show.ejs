@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/backend/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+  <a href="/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
     &lt; Volver
   </a>
   
@@ -39,13 +39,13 @@
 
         <div class="mt-8 flex space-x-4">
           <a
-            href="/backend/games/<%= game.id %>/edit"
+            href="/games/<%= game.id %>/edit"
             class="text-green-500 font-semibold hover:underline"
           >
             ✏️ Editar
           </a>
           <form
-            action="/backend/games/<%= game.id %>?_method=DELETE"
+            action="/games/<%= game.id %>?_method=DELETE"
             method="POST"
             class="inline"
             onsubmit="return confirm('¿Seguro que deseas borrar este partido?');"

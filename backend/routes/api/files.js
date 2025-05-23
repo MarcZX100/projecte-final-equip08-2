@@ -42,7 +42,7 @@ router.post(
     if (!file) {
       return res.status(400).json({ error: 'No hay fichero.' });
     }
-    const url = `${req.protocol}://${req.get('host')}/backend/uploads/${file.filename}`;
+    const url = `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
     res.json({
       filename: file.originalname,
       url,

@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/backend/teams" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+  <a href="/teams" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
     &lt; Volver
   </a>
 
@@ -12,7 +12,7 @@
         <% } %>
 
         <form
-          action="/backend/teams"
+          action="/teams"
           method="POST"
           enctype="multipart/form-data"
           class="space-y-4"
@@ -21,7 +21,7 @@
             <div>
               <img
                 id="logoPreview"
-                src="/backend/uploads/user_placeholder.png"
+                src="/uploads/user_placeholder.png"
                 alt="Foto del equipo"
                 class="w-40 h-40 hover:opacity-70 transition object-cover cursor-pointer"
               >
@@ -72,7 +72,7 @@
               Guardar
             </button>
             <a
-              href="/backend/teams"
+              href="/teams"
               class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
             >
               Cancelar

@@ -1,7 +1,7 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
 
-  <a href="/backend/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+  <a href="/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
     &lt; Volver
   </a>
   
@@ -14,7 +14,7 @@
         <% } %>
 
         <form
-          action="/backend/games/<%= game.id %>?_method=PUT"
+          action="/games/<%= game.id %>?_method=PUT"
           method="POST"
           class="space-y-4"
         >
@@ -81,7 +81,7 @@
               Actualizar
             </button>
             <a
-              href="/backend/games/<%= game.id %>"
+              href="/games/<%= game.id %>"
               class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
             >
               Cancelar

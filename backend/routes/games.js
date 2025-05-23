@@ -46,7 +46,7 @@ module.exports = (pool) => {
          VALUES (?, ?, ?, ?, ?)`,
         [fecha_inicio, ubicacion_x || null, ubicacion_y || null, equipo1_id, equipo2_id]
       );
-      res.redirect('/backend/games');
+      res.redirect('/games');
     } catch (err) {
       next(err);
     }
@@ -96,7 +96,7 @@ module.exports = (pool) => {
          WHERE id = ?`,
         [fecha_inicio, ubicacion_x || null, ubicacion_y || null, equipo1_id, equipo2_id, req.params.id]
       );
-      res.redirect('/backend/games');
+      res.redirect('/games');
     } catch (err) {
       next(err);
     }
@@ -106,7 +106,7 @@ module.exports = (pool) => {
   router.delete('/:id', async (req, res, next) => {
     try {
       await pool.query('DELETE FROM partidos WHERE id = ?', [req.params.id]);
-      res.redirect('/backend/games');
+      res.redirect('/games');
     } catch (err) {
       next(err);
     }

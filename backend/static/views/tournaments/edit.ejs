@@ -1,6 +1,6 @@
 <%- include("../layout/header") %>
 <body class="text-gray-900">
-  <a href="/backend/tournaments/<%= torneo.id %>" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">&lt; Volver</a>
+  <a href="/tournaments/<%= torneo.id %>" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">&lt; Volver</a>
 
   <div class="min-h-screen">
     <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-8">
@@ -10,7 +10,7 @@
         <p class="text-red-500 mb-4"><%= error %></p>
       <% } %>
 
-      <form action="/backend/tournaments/<%= torneo.id %>?_method=PUT" method="POST" class="space-y-4">
+      <form action="/tournaments/<%= torneo.id %>?_method=PUT" method="POST" class="space-y-4">
         <div>
           <label class="block mb-1">Nombre</label>
           <input name="nombre" value="<%= torneo.nombre %>" class="p-2 w-full rounded border" required>
@@ -63,7 +63,7 @@
                   class="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-full">
             Guardar cambios
           </button>
-          <a href="/backend/tournaments/<%= torneo.id %>"
+          <a href="/tournaments/<%= torneo.id %>"
              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-full">
             Cancelar
           </a>

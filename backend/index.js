@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "static", "views"));
-app.use('/backend/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const pool = mariadb.createPool({
   host:     process.env.DB_HOST,
@@ -78,21 +78,21 @@ const pool = mariadb.createPool({
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-app.use("/backend/",       require("./routes/auth")(pool));
-app.use("/backend/users",  require("./routes/users")(pool));
-app.use("/backend/teams",  require("./routes/teams")(pool));
-app.use("/backend/games",  require("./routes/games")(pool));
-app.use("/backend/tournaments",  require("./routes/tournaments")(pool));
+app.use("/",       require("./routes/auth")(pool));
+app.use("/users",  require("./routes/users")(pool));
+app.use("/teams",  require("./routes/teams")(pool));
+app.use("/games",  require("./routes/games")(pool));
+app.use("/tournaments",  require("./routes/tournaments")(pool));
 
-app.use("/backend/api/auth",       require("./routes/api/auth")(pool));
-app.use("/backend/api/users",      require("./routes/api/users")(pool));
-app.use("/backend/api/files",      require("./routes/api/files")(pool));
-app.use('/backend/api/games',      require('./routes/api/games')(pool));
-app.use("/backend/api/tournaments",  require("./routes/api/tournaments")(pool));
-app.use('/backend/api/statistics', require('./routes/api/statistics')(pool));
+app.use("/api/auth",       require("./routes/api/auth")(pool));
+app.use("/api/users",      require("./routes/api/users")(pool));
+app.use("/api/files",      require("./routes/api/files")(pool));
+app.use('/api/games',      require('./routes/api/games')(pool));
+app.use("/api/tournaments",  require("./routes/api/tournaments")(pool));
+app.use('/api/statistics', require('./routes/api/statistics')(pool));
 
 const { router: geocodeRouter } = require('./routes/api/geocode');
-app.use('/backend/api/geocode', geocodeRouter);
+app.use('/api/geocode', geocodeRouter);
 
 
 app.get("/backend", (req, res) => {
@@ -126,10 +126,10 @@ async function startServer() {
     conn = await pool.getConnection();
     console.log("✅ Conectado a MariaDB");
 
-    app.use("/backend/api/teams", require("./routes/api/teams")(pool, websocket));
-    app.use("/backend/api/chats", require("./routes/api/chats")(pool, websocket));
-    app.use("/backend/api/profile", require("./routes/api/profile")(pool, websocket));
-    app.use('/backend/api/notifications', require('./routes/api/notifications')(pool, websocket));
+    app.use("/api/teams", require("./routes/api/teams")(pool, websocket));
+    app.use("/api/chats", require("./routes/api/chats")(pool, websocket));
+    app.use("/api/profile", require("./routes/api/profile")(pool, websocket));
+    app.use('/api/notifications', require('./routes/api/notifications')(pool, websocket));
     
 
     const PORT = process.env.PORT;

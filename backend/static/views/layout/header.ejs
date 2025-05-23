@@ -10,26 +10,26 @@
 <header>
   <nav class="flex justify-between items-center p-4 bg-yellow-400 text-gray-800">
     <div>
-      <a href="/backend/" class="text-3xl font-bold ml-3">TACTiX</a>
-      <a href="/backend/" class="text-md font-semibold mr-8">Backoffice</a>
-      <a href="/backend/" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Inicio</a>
+      <a href="/" class="text-3xl font-bold ml-3">TACTiX</a>
+      <a href="/" class="text-md font-semibold mr-8">Backoffice</a>
+      <a href="/" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Inicio</a>
 
       <% if (user) { %>
-        <a href="/backend/users" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Usuarios</a>
-        <a href="/backend/teams" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Equipos</a>
-        <a href="/backend/games" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Partidos</a>
-        <a href="/backend/tournaments" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Torneos</a>
+        <a href="/users" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Usuarios</a>
+        <a href="/teams" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Equipos</a>
+        <a href="/games" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Partidos</a>
+        <a href="/tournaments" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Torneos</a>
       <% } %>
     </div>
     <div>
         <a class="font-semibold mr-8" href="https://nekokoneko.org">Frontend</a>
       <% if (user) { %>
         <span class="mr-4">Hola, <%= user.nombre || user.email %></span>
-        <form action="/backend/logout" method="POST" class="inline">
+        <form action="/logout" method="POST" class="inline">
           <button type="submit" class="border-2 border-gray-800 text-gray-800 font-semibold py-2 px-3 rounded-full hover:bg-yellow-300 transition">Cerrar Sesión</button>
         </form>
       <% } else { %>
-        <a href="/backend/login" class="text-md font-semibold mr-7 border-2 border-gray-800 hover:bg-yellow-300 transition p-3 rounded-full">Iniciar Sesión</a>
+        <a href="/login" class="text-md font-semibold mr-7 border-2 border-gray-800 hover:bg-yellow-300 transition p-3 rounded-full">Iniciar Sesión</a>
       <% } %>
     </div>
   </nav>
